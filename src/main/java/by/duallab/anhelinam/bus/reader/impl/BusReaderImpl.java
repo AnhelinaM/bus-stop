@@ -20,9 +20,8 @@ public class BusReaderImpl implements BusReader {
     }
 
     @Override
-    public List<Bus> read(String fileName) {
-        URL filePath = getClass().getResource(fileName);
-        try (Stream<String> stream = Files.lines(Paths.get(String.valueOf(filePath)))) {
+    public List<Bus> read(String filePath) {
+        try (Stream<String> stream = Files.lines(Paths.get(filePath))) {
             return stream.map(str -> busParser.parseLineParts(str.split(" "))).collect(Collectors.toList());
         } catch (IOException e) {
             e.printStackTrace();

@@ -9,14 +9,14 @@ public class Bus {
     private LocalTime departureTime;
     private LocalTime arrivalTime;
     private int duration;
-    private static final int SECONDS_PER_DAY = 24 * 60 * 60;
+    private static final int MINUTES_PER_DAY = 24 * 60;
 
     public Bus(Company company, LocalTime departureTime, LocalTime arrivalTime) {
         this.company = company;
         this.departureTime = departureTime;
         this.arrivalTime = arrivalTime;
-        int timeDifference = this.arrivalTime.toSecondOfDay() - this.departureTime.toSecondOfDay();
-        this.duration = timeDifference >= 0 ? timeDifference : SECONDS_PER_DAY + timeDifference;
+        int timeDifference = (this.arrivalTime.toSecondOfDay() - this.departureTime.toSecondOfDay()) / 60;
+        this.duration = timeDifference >= 0 ? timeDifference : MINUTES_PER_DAY + timeDifference;
     }
 
     public Company getCompany() {
@@ -66,7 +66,7 @@ public class Bus {
 
     @Override
     public String toString() { //временно
-        return company.toString().charAt(0) + company.toString().toLowerCase() +
+        return company.toString().charAt(0) + company.toString().toLowerCase().substring(1) +
                 " " + departureTime.format(DateTimeFormatter.ofPattern("HH:mm")) +
                 " " + arrivalTime.format(DateTimeFormatter.ofPattern("HH:mm")) +
                 ", duration = " + duration;

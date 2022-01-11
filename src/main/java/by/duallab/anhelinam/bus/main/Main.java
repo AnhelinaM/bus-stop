@@ -1,5 +1,6 @@
 package by.duallab.anhelinam.bus.main;
 
+import by.duallab.anhelinam.bus.config.AppLauncher;
 import by.duallab.anhelinam.bus.entity.Bus;
 import by.duallab.anhelinam.bus.reader.BusParser;
 import by.duallab.anhelinam.bus.reader.BusReader;
@@ -13,14 +14,7 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
-//       в сервисах??
-        Scanner scanner = new Scanner(System.in);
-        BusParser busParser = new BusParserImpl();
-        BusReader busReader = new BusReaderImpl(busParser);
-        String fileName = scanner.nextLine();
-        List<Bus> schedule = new ArrayList<>();
-        schedule = busReader.read(fileName);
-
+        AppLauncher.run();
     }
 
 }
