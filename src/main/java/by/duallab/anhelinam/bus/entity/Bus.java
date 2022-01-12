@@ -4,7 +4,7 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
-public class Bus {
+public class Bus implements Comparable<Bus> {
     private Company company;
     private LocalTime departureTime;
     private LocalTime arrivalTime;
@@ -43,11 +43,11 @@ public class Bus {
         this.arrivalTime = arrivalTime;
     }
 
-    public Integer getDuration() {
+    public int getDuration() {
         return duration;
     }
 
-    public void setDuration(Integer duration) {
+    public void setDuration(int duration) {
         this.duration = duration;
     }
 
@@ -65,10 +65,35 @@ public class Bus {
     }
 
     @Override
-    public String toString() { //временно
+    public String toString() { //временно todo
         return company.toString().charAt(0) + company.toString().toLowerCase().substring(1) +
                 " " + departureTime.format(DateTimeFormatter.ofPattern("HH:mm")) +
                 " " + arrivalTime.format(DateTimeFormatter.ofPattern("HH:mm")) +
-                ", duration = " + duration;
+                ", duration = " + duration + "\n";
+    }
+
+    /**
+     * Compares Bus in the following order:
+     * - ascending for departure time
+     * - descending for arrival time
+     * - descending for company (Grotty < Posh)
+     *
+     * Such ordering ensures that for each departure time the more optimal Buses end up at the end.
+     *
+     * @param o Bus to compare to
+     * @return integer value which is:
+     * - negative if this object should be before the other
+     * - positive if the other object should be before this one
+     * - zero otherwise
+     */
+    @Override
+    public int compareTo(Bus o) {
+        if (this.getDepartureTime().equals(o.getDepartureTime())) {
+            if (this.getDuration() == o.getDuration()) {
+                return o.getCompany().ordinal() - this.getCompany().ordinal();
+            }
+            return o.getDuration() - this.getDuration();
+        }
+        return this.getDepartureTime().compareTo(o.getDepartureTime());
     }
 }

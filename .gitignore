@@ -15,7 +15,7 @@
 .idea
 .DS_Store
 output.txt
-
+**/input.txt
 # AWS User-specific
 .idea/**/aws.xml
 
