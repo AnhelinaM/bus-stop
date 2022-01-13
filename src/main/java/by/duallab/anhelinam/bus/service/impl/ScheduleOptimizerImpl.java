@@ -14,7 +14,9 @@ public class ScheduleOptimizerImpl implements ScheduleOptimizer {
     /**
      * Optimizes the schedule, which is represented by a list of {@link Bus}.
      * <p>
-     * The main idea (ascending for both departure and arrival time) O(n log n) todo
+     * The main idea is ordering Buses in ascending order for both departure and arrival time
+     * taking into account the buses travelling around midnight.
+     * Time complexity - O(nlogn).
      * <p>
      * The algorithm consists of 4 steps:
      * <p>
@@ -24,19 +26,18 @@ public class ScheduleOptimizerImpl implements ScheduleOptimizer {
      * 2) Iterating through the sorted list replacing items with the latest most optimal one encountered.
      * By 'most optimal' the following is considered: Bus A is more optimal than Bus B if A's arrival time
      * is before B's one (see {@link #chooseEarlierArrivalTimeBus(Bus, Bus, boolean)}).
-     * The ordering of the list ensures that we visit more optimal Buses within the same departure time.
+     * The ordering of the list ensures that we visit more optimal Buses first within the same departure time.
      * <p>
      * 3) Choosing Buses that arrive after midnight (from 00:00 to 00:59). Reverse sorting them
      * by departure time in order from 23:00 to 00:59.
      * The ordering of the list allows the selection of optimal buses that arrive the next day.
-     * Doing step 2 with this list.
+     * Applying step 2 for this list.
      * <p>
      * 4) Merging two lists to obtain optimal schedule
      * (see {@link #mergeEntireAndNearMidnightSchedules(List, List)}).
      *
      * @param schedule List of {@link Bus} to optimize
-     * @return list of {@link Bus} which is merged from two lists
-     * obtained in the first and the second parts of the algorithm
+     * @return optimized schedule, which is represented by a list of {@link Bus}
      */
     @Override
     public List<Bus> optimize(List<Bus> schedule) {
@@ -92,11 +93,6 @@ public class ScheduleOptimizerImpl implements ScheduleOptimizer {
                 otherBus : currentBus;
     }
 
-    /* Concatenation of two lists.
-     * Sorting obtained list of Buses in the following order:
-     * - descending for company (Grotty < Posh)
-     * - ascending for departure time
-     */
     private List<Bus> mergeEntireAndNearMidnightSchedules(List<Bus> entireSchedule, List<Bus> nearMidnightSchedule) {
         return Stream.concat(entireSchedule.stream().filter(p -> !isNearMidnight(p)), nearMidnightSchedule.stream())
                 .sorted((o1, o2) -> {
@@ -111,5 +107,4 @@ public class ScheduleOptimizerImpl implements ScheduleOptimizer {
     private boolean isNearMidnight(Bus bus) {
         return bus.getArrivalTime().getHour() == 0;
     }
-
 }

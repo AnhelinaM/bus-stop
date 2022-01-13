@@ -40,7 +40,8 @@ public class Bus implements Comparable<Bus> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Bus bus = (Bus) o;
-        return company == bus.company && Objects.equals(departureTime, bus.departureTime) && Objects.equals(arrivalTime, bus.arrivalTime);
+        return company == bus.company && Objects.equals(departureTime, bus.departureTime)
+                && Objects.equals(arrivalTime, bus.arrivalTime);
     }
 
     @Override
