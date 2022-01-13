@@ -16,8 +16,7 @@ public class BusParserImpl implements BusParser {
             LocalTime arrivalTime = LocalTime.parse(lineParts[2], DateTimeFormatter.ofPattern("HH:mm"));
             return new Bus(company, departureTime, arrivalTime);
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new IllegalStateException("Error parsing: ", e);
         }
-        return null;
     }
 }

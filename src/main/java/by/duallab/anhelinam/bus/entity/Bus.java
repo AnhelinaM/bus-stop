@@ -5,10 +5,10 @@ import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 public class Bus implements Comparable<Bus> {
-    private Company company;
-    private LocalTime departureTime;
-    private LocalTime arrivalTime;
-    private int duration;
+    private final Company company;
+    private final LocalTime departureTime;
+    private final LocalTime arrivalTime;
+    private final int duration;
     private static final int MINUTES_PER_DAY = 24 * 60;
 
     public Bus(Company company, LocalTime departureTime, LocalTime arrivalTime) {
@@ -23,32 +23,16 @@ public class Bus implements Comparable<Bus> {
         return company;
     }
 
-    public void setCompany(Company company) {
-        this.company = company;
-    }
-
     public LocalTime getDepartureTime() {
         return departureTime;
-    }
-
-    public void setDepartureTime(LocalTime departureTime) {
-        this.departureTime = departureTime;
     }
 
     public LocalTime getArrivalTime() {
         return arrivalTime;
     }
 
-    public void setArrivalTime(LocalTime arrivalTime) {
-        this.arrivalTime = arrivalTime;
-    }
-
     public int getDuration() {
         return duration;
-    }
-
-    public void setDuration(int duration) {
-        this.duration = duration;
     }
 
     @Override
@@ -65,11 +49,10 @@ public class Bus implements Comparable<Bus> {
     }
 
     @Override
-    public String toString() { //временно todo
+    public String toString() {
         return company.toString().charAt(0) + company.toString().toLowerCase().substring(1) +
                 " " + departureTime.format(DateTimeFormatter.ofPattern("HH:mm")) +
-                " " + arrivalTime.format(DateTimeFormatter.ofPattern("HH:mm")) +
-                ", duration = " + duration + "\n";
+                " " + arrivalTime.format(DateTimeFormatter.ofPattern("HH:mm")) + '\n';
     }
 
     /**
@@ -77,7 +60,7 @@ public class Bus implements Comparable<Bus> {
      * - ascending for departure time
      * - descending for arrival time
      * - descending for company (Grotty < Posh)
-     *
+     * <p>
      * Such ordering ensures that for each departure time the more optimal Buses end up at the end.
      *
      * @param o Bus to compare to

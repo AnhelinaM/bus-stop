@@ -13,21 +13,17 @@ import by.duallab.anhelinam.bus.writer.impl.BusWriterImpl;
 import java.util.List;
 import java.util.Scanner;
 
-/*
-Жалкая пародия на класс, конфигурирующий зависимости между классами сервисов(типа как в Спринге).
-static final для синглтона(он не lazy, потому что нет смысла так сложно, да и все эти объекты мы сразу же используем)
- */
 public class AppLauncher {
-    private static final BusParser busParser = new BusParserImpl();
-    private static final BusReader busReader = new BusReaderImpl(busParser);
-    private static final BusWriter busWriter = new BusWriterImpl();
-    private static final ScheduleOptimizer optimizer = new ScheduleOptimizerImpl();
+    private static final BusParser BUS_PARSER = new BusParserImpl();
+    private static final BusReader BUS_READER = new BusReaderImpl(BUS_PARSER);
+    private static final BusWriter BUS_WRITER = new BusWriterImpl();
+    private static final ScheduleOptimizer OPTIMIZER = new ScheduleOptimizerImpl();
 
     public static void run() {
         Scanner scanner = new Scanner(System.in);
         String fileName = scanner.nextLine();
-        List<Bus> schedule = busReader.read(fileName);
-        busWriter.write(optimizer.optimize(schedule), "output.txt");
+        List<Bus> schedule = BUS_READER.read(fileName);
+        BUS_WRITER.write(OPTIMIZER.optimize(schedule), "output.txt");
     }
 
 }

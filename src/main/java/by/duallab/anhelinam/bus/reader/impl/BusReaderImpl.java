@@ -5,7 +5,6 @@ import by.duallab.anhelinam.bus.reader.BusParser;
 import by.duallab.anhelinam.bus.reader.BusReader;
 
 import java.io.IOException;
-import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
@@ -24,8 +23,7 @@ public class BusReaderImpl implements BusReader {
         try (Stream<String> stream = Files.lines(Paths.get(filePath))) {
             return stream.map(str -> busParser.parseLineParts(str.split(" "))).collect(Collectors.toList());
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new IllegalStateException(String.format("Error reading from file %s: ", filePath), e);
         }
-        return null;
     }
 }
