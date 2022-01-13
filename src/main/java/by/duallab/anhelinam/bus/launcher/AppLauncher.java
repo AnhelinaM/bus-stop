@@ -20,6 +20,7 @@ public class AppLauncher {
     private static final ScheduleOptimizer OPTIMIZER = new ScheduleOptimizerImpl();
 
     public static void run() {
+        System.out.println("Enter input file path: ");
         Scanner scanner = new Scanner(System.in);
         String fileName = scanner.nextLine();
         List<Bus> schedule = BUS_READER.read(fileName);
